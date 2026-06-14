@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupe du Monde FIFA 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES DE DESIGN (NOIR & GOLD) --- */
+        :root {
+            --dark-deep: #080808;      /* Noir d'encre */
+            --dark-card: #121212;      /* Noir de carte */
+            --dark-border: #1a1a1a;    /* Bordures subtiles */
+            
+            /* Dégradé Or Métallique Premium */
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+            --gold-solid: #D4AF37;     /* Or Classique */
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --gold-text: #f3e5ab;      /* Or très clair pour le texte */
+        }
+
+        /* --- CONFIGURATION GÉNÉRALE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--dark-deep);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Fond d'ambiance avec légères vagues sombres et dorées */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(186, 138, 28, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 10% 80%, rgba(186, 138, 28, 0.03) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(191, 149, 63, 0.15);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container i {
+            font-size: 2.2rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
+        }
+
+        .logo-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links .active {
+            color: var(--gold-solid);
+            text-shadow: 0 0 8px var(--gold-glow);
+        }
+
+        .live-badge {
+            background: #ff0000;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- DISPOSITION PRINCIPALE (GRID) --- */
+        main {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- ONGLETS DES SOURCES --- */
+        .stream-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stream-tab {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(191, 149, 63, 0.25);
+            color: #b3b3b3;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stream-tab:hover {
+            border-color: var(--gold-solid);
+            color: #fff;
+        }
+
+        .stream-tab.active {
+            background: var(--gold-gradient);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- SECTION LECTEUR --- */
+        .stream-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Cadre Doré Lumineux Autour du Lecteur */
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid;
+            border-image: var(--gold-gradient) 1;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.1);
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .player-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- OVERLAY DE PROTECTION (PUB) --- */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(8,8,8,0.99) 0%, rgba(15,15,15,0.97) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            text-align: center;
+            padding: 25px;
+        }
+
+        .overlay-trophy {
+            font-size: 4.5rem;
+            margin-bottom: 15px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px var(--gold-glow));
+            animation: bounceTrophy 3s infinite ease-in-out;
+        }
+
+        @keyframes bounceTrophy {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .overlay-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #ffffff;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .overlay-subtitle {
+            font-size: 0.95rem;
+            color: #cccccc;
+            margin-bottom: 25px;
+            font-weight: 300;
+            max-width: 550px;
+        }
+
+        .ad-wall-box {
+            background-color: rgba(191, 149, 63, 0.05);
+            border: 1.5px dashed rgba(191, 149, 63, 0.3);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .ad-progress-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .ad-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ad-dot.completed {
+            background: var(--gold-gradient);
+            box-shadow: 0 0 8px var(--gold-solid);
+        }
+
+        .ad-dot.active {
+            background: #ffffff;
+            transform: scale(1.25);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .ad-instruction {
+            color: #ffcc00;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .ad-instruction i {
+            font-size: 1rem;
+            animation: warningFlash 1s infinite;
+        }
+
+        @keyframes warningFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .ad-instruction-subtext {
+            color: #ffffff;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .play-btn-gold {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .play-btn-gold:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.6);
+        }
+
+        /* --- INFOS MATCH EN DIRECT --- */
+        .match-info-card {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 110px;
+        }
+
+        .team-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .team-box.team-right {
+            justify-content: flex-end;
+        }
+
+        .flag-box {
+            width: 50px;
+            height: 35px;
+            overflow: hidden;
+            border-radius: 4px;
+            border: 1.5px solid rgba(191, 149, 63, 0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #222;
+        }
+
+        .flag-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .match-score-status {
+            text-align: center;
+            padding: 0 20px;
+            min-width: 150px;
+        }
+
+        .live-score {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .match-minute {
+            color: #eab308;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        /* --- BARRE LATÉRALE : CHAT --- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .chat-container {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+            border-radius: 12px;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #0d0d0d;
+            padding: 15px;
+            border-bottom: 1px solid rgba(191, 149, 63, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gold-solid);
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.85rem;
+            background-color: #0d0d0d;
+        }
+
+        .message {
+            background-color: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--gold-solid);
+            animation: fadeInMsg 0.3s ease;
+        }
+
+        @keyframes fadeInMsg {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user-sent {
+            border-left-color: #22c55e;
+            background-color: rgba(34, 197, 94, 0.02);
+        }
+
+        .message.system-alert {
+            border-left-color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.05);
+        }
+
+        .msg-author {
+            font-weight: 700;
+            color: var(--gold-text);
+            margin-bottom: 3px;
+        }
+
+        .message.user-sent .msg-author {
+            color: #22c55e;
+        }
+
+        .message.system-alert .msg-author {
+            color: #ef4444;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .msg-text {
+            color: #e0e0e0;
+            word-break: break-word;
+        }
+
+        .msg-text span.forbidden-link {
+            color: #ef4444;
+            font-style: italic;
+            font-weight: bold;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            flex-direction: column;
+            background: #080808;
+            border-top: 1px solid rgba(191, 149, 63, 0.15);
+            padding: 12px;
+            gap: 8px;
+        }
+
+        .pseudo-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pseudo-row span {
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .pseudo-input {
+            background: #121212;
+            border: 1px solid rgba(191, 149, 63, 0.25);
+            border-radius: 4px;
+            padding: 5px 10px;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            width: 140px;
+            transition: border-color 0.3s;
+        }
+
+        .pseudo-input:focus { outline: none; border-color: var(--gold-solid); }
+
+        .chat-input-area { display: flex; gap: 8px; }
+
+        .chat-input-area input {
+            flex: 1;
+            background: #121212;
+            border: 1px solid rgba(191, 149, 63, 0.25);
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input-area input:focus { outline: none; border-color: var(--gold-solid); }
+
+        .chat-input-area button {
+            background: var(--gold-gradient);
+            border: none;
+            color: #000;
+            font-weight: bold;
+            padding: 0 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .chat-input-area button:hover { opacity: 0.9; }
+        .chat-input-area button:active { transform: scale(0.95); }
+
+        /* --- BARRE LATÉRALE : MATCHS DU JOUR --- */
+        .calendar-card {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .calendar-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--gold-solid);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(191, 149, 63, 0.1);
+            padding-bottom: 8px;
+            margin-bottom: 5px;
+        }
+
+        .match-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .mini-match-row {
+            background: rgba(191, 149, 63, 0.03);
+            border: 1px solid rgba(191, 149, 63, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-teams { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .mini-team { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600; }
+
+        .mini-flag-box {
+            width: 25px;
+            height: 18px;
+            overflow: hidden;
+            border-radius: 2px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #222;
+        }
+
+        .mini-flag-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .match-meta {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 15px;
+            margin-left: 15px;
+            min-width: 110px;
+        }
+
+        .meta-status { font-weight: 700; text-transform: uppercase; font-size: 0.75rem; color: #eab308; margin-bottom: 2px; }
+        .meta-time { font-size: 0.85rem; color: #fff; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <i class="fa-solid fa-trophy"></i>
+            <span class="logo-title">Coupe du Monde</span>
+            <span style="color: rgba(191, 149, 63, 0.4); font-size: 1.6rem; font-weight: 300; margin: 0 8px;">|</span>
+            <span style="color: #ff0000; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);">MOVIX</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Direct</a></li>
+            <li><a href="#calendrier-section" onclick="document.getElementById('calendrier-section').scrollIntoView({behavior:'smooth'}); return false;">Calendrier</a></li>
+            <li>
+                <div class="live-badge">
+                    <i class="fa-solid fa-circle"></i> LIVE
+                </div>
+            </li>
+        </ul>
+    </header>
+
+    <main>
+        
+        <section class="stream-section">
+            
+            <div class="stream-tabs">
+                <button class="stream-tab active" onclick="changeSource('https://junkieembeds.pages.dev/embed/fox-usa', this)">Fox USA</button>
+                <button class="stream-tab" onclick="changeSource('https://junkieembeds.pages.dev/embed/beinsportsmax-sa', this)">beIN Arabia</button>
+                <button class="stream-tab" onclick="changeSource('https://junkieembeds.pages.dev/embed/beinsports1-fr', this)">beIN France</button>
+            </div>
+
+            <div class="player-wrapper" oncontextmenu="return false;">
+                
+                <div class="video-overlay" id="videoOverlay">
+                    <i class="fa-solid fa-trophy overlay-trophy"></i>
+                    <h2 class="overlay-title">Débloquer le Live</h2>
+                    
+                    <div class="ad-wall-box">
+                        <div class="ad-progress-bar">
+                            <span class="ad-dot active" id="dot1"></span>
+                            <span class="ad-dot" id="dot2"></span>
+                            <span class="ad-dot" id="dot3"></span>
+                        </div>
+                        <div class="ad-instruction">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Ne cliquez sur rien dans la pub !
+                        </div>
+                        <div id="adInstructionSubText" class="ad-instruction-subtext">
+                            Une fois la pub ouverte, revenez immédiatement sur cette page pour débloquer l'étape suivante.
+                        </div>
+                    </div>
+
+                    <button class="play-btn-gold" id="adWallBtn" onclick="handleAdWall()">
+                        <i class="fa-solid fa-rectangle-ad"></i> <span id="adBtnText">Regarder la pub (1/3)</span>
+                    </button>
+                </div>
+
+                <iframe id="mainPlayer" src="https://junkieembeds.pages.dev/embed/foxtest-usa" 
+                        scrolling="no" 
+                        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="match-info-card" id="main-match-card">
+                <div style="width:100%; text-align:center; color:#888; font-size:0.9rem;">Initialisation du match...</div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>Chat du Live</h3>
+                    <div class="security-badge">
+                        <i class="fa-solid fa-shield-halved"></i> Anti-Lien
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatBox">
+                    <div class="message" style="border-left-color: var(--gold-solid);">
+                        <div class="msg-author">Système de Sécurité</div>
+                        <div class="msg-text">Bienvenue sur le chat du live ! Les liens publicitaires et spams sont strictement interdits. Bon match ! 🛡️</div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-wrapper">
+                    <div class="pseudo-row">
+                        <span>Pseudo :</span>
+                        <input type="text" id="userPseudo" class="pseudo-input" placeholder="Pseudo..." maxlength="12">
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="userInputMsg" placeholder="Écrire un message..." onkeydown="if(event.key === 'Enter') sendUserMessage()">
+                        <button onclick="sendUserMessage()"><i class="fa-regular fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-card">
+                <h3>Matchs du Jour</h3>
+                <div class="match-list" id="sidebar-match-list">
+                    <p style="text-align: center; color: #888; font-size: 0.85rem; padding: 10px;">Chargement des matchs...</p>
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <section id="calendrier-section" style="max-width: 1400px; margin: 0 auto 60px; padding: 0 20px;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin-bottom:30px; border-bottom: 1px solid rgba(191,149,63,0.2); padding-bottom:20px;">
+            <div>
+                <h2 style="font-family:'Cinzel',serif; font-size:1.8rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:2px; text-transform:uppercase;">
+                    <i class="fa-solid fa-calendar-days" style="-webkit-text-fill-color:var(--gold-solid);"></i> Calendrier Officiel
+                </h2>
+                <p style="color:#888; font-size:0.85rem; margin-top:5px;">Coupe du Monde FIFA 2026 — 104 matchs · 11 juin – 19 juillet 2026</p>
+            </div>
+            <div id="timezone-display" style="background:rgba(191,149,63,0.07); border:1px solid rgba(191,149,63,0.25); border-radius:10px; padding:12px 20px; text-align:center;">
+                <div style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;"><i class="fa-solid fa-earth-americas"></i> Votre fuseau horaire</div>
+                <div id="tz-name" style="font-weight:700; color:var(--gold-solid); font-size:0.95rem;"></div>
+                <div id="tz-offset" style="font-size:0.8rem; color:#ccc;"></div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:25px;" id="phase-filters">
+            <button class="phase-btn active-filter" onclick="filterPhase('all')">Tous</button>
+            <button class="phase-btn" onclick="filterPhase('groupe')">Phase de Groupes</button>
+            <button class="phase-btn" onclick="filterPhase('r32')">1/32 de finale</button>
+            <button class="phase-btn" onclick="filterPhase('r16')">1/16 de finale</button>
+            <button class="phase-btn" onclick="filterPhase('qf')">Quarts</button>
+            <button class="phase-btn" onclick="filterPhase('sf')">Demies</button>
+            <button class="phase-btn" onclick="filterPhase('final')">Finale</button>
+        </div>
+
+        <div id="calendar-content"></div>
+
+    </section>
+
+    <style>
+        .phase-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(191, 149, 63, 0.2);
+            color: #aaa;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .phase-btn:hover { border-color: var(--gold-solid); color: var(--gold-solid); }
+        .phase-btn.active-filter { background: var(--gold-gradient); color: #000; border-color: transparent; }
+
+        .cal-phase-block { margin-bottom: 35px; }
+        .cal-phase-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold-solid);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cal-phase-title::after { content: ''; flex: 1; height: 1px; background: rgba(191,149,63,0.2); }
+
+        .cal-day-header {
+            font-size: 0.78rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin: 18px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cal-day-header::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
+
+        .cal-match-row {
+            display: flex;
+            align-items: center;
+            background: var(--dark-card);
+            border: 1px solid rgba(191, 149, 63, 0.1);
+            border-radius: 10px;
+            padding: 12px 18px;
+            margin-bottom: 8px;
+            transition: border-color 0.2s, transform 0.2s;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .cal-match-row:hover { border-color: rgba(191, 149, 63, 0.35); transform: translateX(3px); }
+        .cal-match-row.match-live { border-color: #ff0000; box-shadow: 0 0 10px rgba(255,0,0,0.15); }
+        .cal-match-row.match-done { opacity: 0.65; }
+        .cal-match-row.match-today { border-color: rgba(191, 149, 63, 0.5); background: rgba(191, 149, 63, 0.04); }
+
+        .cal-group-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #000;
+            background: var(--gold-gradient);
+            padding: 3px 8px;
+            border-radius: 4px;
+            min-width: 30px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .cal-teams { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 200px; }
+        .cal-team { display: flex; align-items: center; gap: 7px; font-size: 0.9rem; font-weight: 600; }
+        .cal-flag { width: 24px; height: 17px; object-fit: cover; border-radius: 2px; border: 1px solid rgba(255,255,255,0.1); }
+        .cal-vs { font-size: 0.75rem; color: #555; font-weight: 700; padding: 0 5px; }
+        .cal-score { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 900; color: var(--gold-solid); min-width: 60px; text-align: center; flex-shrink: 0; }
+        .cal-time-block { text-align: right; min-width: 120px; flex-shrink: 0; }
+        .cal-local-time { font-weight: 700; font-size: 0.9rem; color: #fff; }
+        .cal-user-time { font-size: 0.78rem; color: var(--gold-text); font-style: italic; }
+        .cal-venue { font-size: 0.72rem; color: #666; flex: 1; text-align: right; min-width: 120px; }
+        .cal-status-badge { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; flex-shrink: 0; }
+        
+        .badge-live { background: rgba(255,0,0,0.15); color: #ff4444; border: 1px solid rgba(255,0,0,0.3); animation: pulse 1.5s infinite; }
+        .badge-done { background: rgba(255,255,255,0.05); color: #555; border: 1px solid rgba(255,255,255,0.05); }
+        .badge-soon { background: rgba(234,179,8,0.1); color: #eab308; border: 1px solid rgba(234,179,8,0.2); }
+        .badge-upcoming { background: rgba(191,149,63,0.08); color: #888; border: 1px solid rgba(191,149,63,0.15); }
+    </style>
+
+    <script>
+    // ============================================================
+    // BASE DE DONNÉES DU CALENDRIER (Heures ISO UTC)
+    // ============================================================
+    const MATCHES = [
+        // ---- PHASE DE GROUPES ----
+        ["2026-06-11T19:00:00Z","Mexique","mx","Afrique du Sud","za","A","Estadio Azteca","2-0","groupe"],
+        ["2026-06-11T23:00:00Z","Corée du Sud","kr","Tchéquie","cz","A","Estadio Akron","2-1","groupe"],
+        ["2026-06-12T18:00:00Z","Canada","ca","Bosnie-Herzégovine","ba","B","BMO Field, Toronto","1-1","groupe"],
+        ["2026-06-12T22:00:00Z","USA","us","Paraguay","py","D","SoFi Stadium, Inglewood","4-1","groupe"],
+        ["2026-06-13T17:00:00Z","Qatar","qa","Suisse","ch","B","Levi's Stadium, Santa Clara","1-1","groupe"],
+        ["2026-06-13T21:00:00Z","Brésil","br","Maroc","ma","C","MetLife Stadium, New Jersey","1-1","groupe"],
+        ["2026-06-14T01:00:00Z","Haïti","ht","Écosse","gb-sct","C","Gillette Stadium, Foxborough","1-0","groupe"],
+        
+        // Matchs du jour
+        ["2026-06-14T04:00:00Z","Australie","au","Türkiye","tr","D","BC Place, Vancouver","2-0","groupe"],
+        ["2026-06-14T17:00:00Z","Allemagne","de","Curaçao","cw","E","NRG Stadium, Houston","7-1","groupe"],
+        ["2026-06-14T20:00:00Z","Pays-Bas","nl","Japon","jp","F","AT&T Stadium, Arlington",null,"groupe"],
+        ["2026-06-14T23:00:00Z","Côte d'Ivoire","ci","Équateur","ec","E","Lincoln Financial Field, Philadelphia",null,"groupe"],
+        ["2026-06-15T02:00:00Z","Suède","se","Tunisie","tn","F","Estadio BBVA, Monterrey",null,"groupe"],
+        
+        ["2026-06-15T16:00:00Z","Espagne","es","Cap-Vert","cv","H","Mercedes-Benz Stadium, Atlanta",null,"groupe"],
+        ["2026-06-15T19:00:00Z","Belgique","be","Égypte","eg","G","Lumen Field, Seattle",null,"groupe"],
+        ["2026-06-15T22:00:00Z","Arabie Saoudite","sa","Uruguay","uy","H","Hard Rock Stadium, Miami",null,"groupe"],
+        ["2026-06-16T01:00:00Z","Iran","ir","Nouvelle-Zélande","nz","G","SoFi Stadium, Inglewood",null,"groupe"],
+        ["2026-06-16T19:00:00Z","France","fr","Sénégal","sn","I","MetLife Stadium, New Jersey",null,"groupe"],
+        ["2026-06-16T22:00:00Z","Irak","iq","Norvège","no","I","Gillette Stadium, Foxborough",null,"groupe"],
+        ["2026-06-17T01:00:00Z","Argentine","ar","Algérie","dz","J","Arrowhead Stadium, Kansas City",null,"groupe"],
+        ["2026-06-17T04:00:00Z","Autriche","at","Jordanie","jo","J","Levi's Stadium, Santa Clara",null,"groupe"],
+        ["2026-06-17T17:00:00Z","Portugal","pt","RD Congo","cd","K","NRG Stadium, Houston",null,"groupe"],
+        ["2026-06-17T20:00:00Z","Angleterre","gb","Croatie","hr","L","AT&T Stadium, Arlington",null,"groupe"],
+        ["2026-06-17T23:00:00Z","Ghana","gh","Panama","pa","L","BMO Field, Toronto",null,"groupe"],
+        ["2026-06-18T02:00:00Z","Ouzbékistan","uz","Colombie","co","K","Estadio Azteca, Mexico City",null,"groupe"],
+        ["2026-06-18T16:00:00Z","Tchéquie","cz","Afrique du Sud","za","A","Mercedes-Benz Stadium, Atlanta",null,"groupe"],
+        ["2026-06-18T19:00:00Z","Suisse","ch","Bosnie-Herzégovine","ba","B","SoFi Stadium, Inglewood",null,"groupe"],
+        ["2026-06-18T22:00:00Z","Canada","ca","Qatar","qa","B","BC Place, Vancouver",null,"groupe"],
+        ["2026-06-19T01:00:00Z","Mexique","mx","Corée du Sud","kr","A","Estadio Akron",null,"groupe"],
+        ["2026-06-19T19:00:00Z","USA","us","Australie","au","D","Lumen Field, Seattle",null,"groupe"],
+        ["2026-06-19T22:00:00Z","Écosse","gb-sct","Maroc","ma","C","Gillette Stadium, Foxborough",null,"groupe"],
+        ["2026-06-20T00:30:00Z","Brésil","br","Haïti","ht","C","Lincoln Financial Field",null,"groupe"],
+        ["2026-06-20T03:00:00Z","Türkiye","tr","Paraguay","py","D","Levi's Stadium, Santa Clara",null,"groupe"],
+        ["2026-06-20T17:00:00Z","Pays-Bas","nl","Suède","se","F","NRG Stadium, Houston",null,"groupe"],
+        ["2026-06-20T20:00:00Z","Allemagne","de","Côte d'Ivoire","ci","E","BMO Field, Toronto",null,"groupe"],
+        ["2026-06-21T00:00:00Z","Équateur","ec","Curaçao","cw","E","Arrowhead Stadium, Kansas City",null,"groupe"],
+        ["2026-06-21T04:00:00Z","Tunisie","tn","Japon","jp","F","Estadio BBVA, Monterrey",null,"groupe"],
+        ["2026-06-21T16:00:00Z","Espagne","es","Arabie Saoudite","sa","H","Mercedes-Benz Stadium, Atlanta",null,"groupe"],
+        ["2026-06-21T19:00:00Z","Belgique","be","Iran","ir","G","SoFi Stadium, Inglewood",null,"groupe"],
+        ["2026-06-21T22:00:00Z","Uruguay","uy","Cap-Vert","cv","H","Hard Rock Stadium, Miami",null,"groupe"],
+        ["2026-06-22T01:00:00Z","Nouvelle-Zélande","nz","Égypte","eg","G","BC Place, Vancouver",null,"groupe"],
+        ["2026-06-22T17:00:00Z","Argentine","ar","Autriche","at","J","AT&T Stadium, Arlington",null,"groupe"],
+        ["2026-06-22T21:00:00Z","France","fr","Irak","iq","I","Lincoln Financial Field",null,"groupe"],
+        ["2026-06-23T00:00:00Z","Norvège","no","Sénégal","sn","I","MetLife Stadium, New Jersey",null,"groupe"],
+        ["2026-06-23T03:00:00Z","Jordanie","jo","Algérie","dz","J","Levi's Stadium, Santa Clara",null,"groupe"],
+        ["2026-06-23T17:00:00Z","Portugal","pt","Ouzbékistan","uz","K","NRG Stadium, Houston",null,"groupe"],
+        ["2026-06-23T20:00:00Z","Angleterre","gb","Ghana","gh","L","Gillette Stadium, Foxborough",null,"groupe"],
+        ["2026-06-23T23:00:00Z","Panama","pa","Croatie","hr","L","BMO Field, Toronto",null,"groupe"],
+        ["2026-06-24T02:00:00Z","Colombie","co","RD Congo","cd","K","Estadio Akron",null,"groupe"],
+        ["2026-06-24T19:00:00Z","Suisse","ch","Canada","ca","B","BC Place, Vancouver",null,"groupe"],
+        ["2026-06-24T19:00:00Z","Bosnie-Herzégovine","ba","Qatar","qa","B","Lumen Field, Seattle",null,"groupe"],
+        ["2026-06-24T22:00:00Z","Écosse","gb-sct","Brésil","br","C","Hard Rock Stadium, Miami",null,"groupe"],
+        ["2026-06-24T22:00:00Z","Maroc","ma","Haïti","ht","C","Mercedes-Benz Stadium, Atlanta",null,"groupe"],
+        ["2026-06-25T01:00:00Z","Tchéquie","cz","Mexique","mx","A","Estadio Azteca",null,"groupe"],
+        ["2026-06-25T01:00:00Z","Afrique du Sud","za","Corée du Sud","kr","A","Estadio BBVA, Monterrey",null,"groupe"],
+        ["2026-06-25T20:00:00Z","Curaçao","cw","Côte d'Ivoire","ci","E","Lincoln Financial Field",null,"groupe"],
+        ["2026-06-25T20:00:00Z","Équateur","ec","Allemagne","de","E","MetLife Stadium, New Jersey",null,"groupe"],
+        ["2026-06-25T23:00:00Z","Japon","jp","Suède","se","F","AT&T Stadium, Arlington",null,"groupe"],
+        ["2026-06-25T23:00:00Z","Tunisie","tn","Pays-Bas","nl","F","Arrowhead Stadium, Kansas City",null,"groupe"],
+        ["2026-06-26T02:00:00Z","Türkiye","tr","USA","us","D","SoFi Stadium, Inglewood",null,"groupe"],
+        ["2026-06-26T02:00:00Z","Paraguay","py","Australie","au","D","Levi's Stadium, Santa Clara",null,"groupe"],
+        ["2026-06-26T19:00:00Z","Norvège","no","France","fr","I","Gillette Stadium, Foxborough",null,"groupe"],
+        ["2026-06-26T19:00:00Z","Sénégal","sn","Irak","iq","I","BMO Field, Toronto",null,"groupe"],
+        ["2026-06-27T00:00:00Z","Cap-Vert","cv","Arabie Saoudite","sa","H","NRG Stadium, Houston",null,"groupe"],
+        ["2026-06-27T00:00:00Z","Uruguay","uy","Espagne","es","H","Estadio Akron",null,"groupe"],
+        ["2026-06-27T03:00:00Z","Égypte","eg","Iran","ir","G","Lumen Field, Seattle",null,"groupe"],
+        ["2026-06-27T03:00:00Z","Nouvelle-Zélande","nz","Belgique","be","G","BC Place, Vancouver",null,"groupe"],
+        ["2026-06-27T21:00:00Z","Panama","pa","Angleterre","gb","L","MetLife Stadium, New Jersey",null,"groupe"],
+        ["2026-06-27T21:00:00Z","Croatie","hr","Ghana","gh","L","Lincoln Financial Field",null,"groupe"],
+        ["2026-06-27T23:30:00Z","Colombie","co","Portugal","pt","K","Hard Rock Stadium, Miami",null,"groupe"],
+        ["2026-06-27T23:30:00Z","RD Congo","cd","Ouzbékistan","uz","K","Mercedes-Benz Stadium, Atlanta",null,"groupe"],
+        ["2026-06-28T02:00:00Z","Algérie","dz","Autriche","at","J","Arrowhead Stadium, Kansas City",null,"groupe"],
+        ["2026-06-28T02:00:00Z","Jordanie","jo","Argentine","ar","J","AT&T Stadium, Arlington",null,"groupe"],
+        
+        // ---- PHASES FINALES ----
+        ["2026-06-28T19:00:00Z","2e Gr. A","??","2e Gr. B","??","1/32","SoFi Stadium, Inglewood",null,"r32"],
+        ["2026-06-29T17:00:00Z","1er Gr. C","??","2e Gr. F","??","1/32","NRG Stadium, Houston",null,"r32"],
+        ["2026-06-29T20:30:00Z","1er Gr. E","??","M. 3e pl.","??","1/32","Gillette Stadium, Foxborough",null,"r32"],
+        ["2026-06-30T01:00:00Z","1er Gr. F","??","2e Gr. C","??","1/32","Estadio BBVA, Monterrey",null,"r32"],
+        ["2026-07-04T19:00:00Z","Vainqueur M73","??","Vainqueur M88","??","1/16","MetLife Stadium, New Jersey",null,"r16"],
+        ["2026-07-09T19:00:00Z","Vainqueur M89","??","Vainqueur M90","??","Quart","MetLife Stadium",null,"qf"],
+        ["2026-07-14T23:00:00Z","Vainqueur QF1","??","Vainqueur QF2","??","Demi-finale","MetLife Stadium",null,"sf"],
+        ["2026-07-19T19:00:00Z","Finaliste 1","??","Finaliste 2","??","FINALE 🏆","MetLife Stadium",null,"final"],
+    ];
+
+    const FLAG_OVERRIDES = {
+        "gb-sct": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/langfr-1920px-Flag_of_Scotland.svg.png"
+    };
+
+    function getFlag(code) {
+        if (FLAG_OVERRIDES[code]) return FLAG_OVERRIDES[code];
+        if (code === "??") return null;
+        return `https://flagcdn.com/w40/${code}.png`;
+    }
+
+    function getMatchStatus(utcStr, result) {
+        const now = new Date();
+        const matchTime = new Date(utcStr);
+        const diffMin = (now - matchTime) / 60000;
+        if (result) return 'done';
+        if (diffMin >= 0 && diffMin < 105) return 'live';
+        if (diffMin < 0 && diffMin > -180) return 'soon';
+        return diffMin < 0 ? 'upcoming' : 'done';
+    }
+
+    function toLocalTime(utcStr) {
+        return new Date(utcStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+
+    function toLocalDate(utcStr) {
+        return new Date(utcStr).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+
+    function displayTimezone() {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const offset = -new Date().getTimezoneOffset();
+        const sign = offset >= 0 ? '+' : '-';
+        const abs = Math.abs(offset);
+        document.getElementById('tz-name').textContent = tz || 'Inconnu';
+        document.getElementById('tz-offset').textContent = `UTC${sign}${String(Math.floor(abs/60)).padStart(2,'0')}:${String(abs%60).padStart(2,'0')}`;
+    }
+
+    // --- FILTRE DU CALENDRIER COMPLET ---
+    let currentFilter = 'all';
+    function filterPhase(phase) {
+        currentFilter = phase;
+        document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active-filter'));
+        event.target.classList.add('active-filter');
+        renderCalendar();
+    }
+
+    function renderCalendar() {
+        const phases = [
+            { id: 'groupe', label: '⚽ Phase de Groupes' },
+            { id: 'r32',    label: '⚡ 1/32 de Finale' },
+            { id: 'r16',    label: '🎯 1/16 de Finale' },
+            { id: 'qf',     label: '🔥 Quarts de Finale' },
+            { id: 'sf',     label: '🌟 Demi-Finales' },
+            { id: 'final',  label: '🏆 Finale' },
+        ];
+
+        const filtered = currentFilter === 'all' ? MATCHES : MATCHES.filter(m => m[8] === currentFilter);
+        let html = '';
+        const phaseGroups = {};
+        filtered.forEach(m => { if (!phaseGroups[m[8]]) phaseGroups[m[8]] = []; phaseGroups[m[8]].push(m); });
+
+        phases.forEach(ph => {
+            const pMatches = phaseGroups[ph.id];
+            if (!pMatches || pMatches.length === 0) return;
+
+            html += `<div class="cal-phase-block">
+                <div class="cal-phase-title">${ph.label}</div>`;
+
+            const byDay = {};
+            pMatches.forEach(m => { const dKey = toLocalDate(m[0]); if (!byDay[dKey]) byDay[dKey] = []; byDay[dKey].push(m); });
+
+            Object.keys(byDay).forEach(day => {
+                const now = new Date();
+                const isToday = new Date(byDay[day][0][0]).toDateString() === now.toDateString();
+                html += `<div class="cal-day-header">${isToday ? '📅 ' : ''}${day}${isToday ? ' — <span style="color:var(--gold-solid)">Aujourd\'hui</span>' : ''}</div>`;
+                
+                byDay[day].forEach(m => {
+                    const [utc, t1, f1, t2, f2, grp, venue, result] = m;
+                    const status = getMatchStatus(utc, result);
+                    let statusBadge = '', rowClass = 'cal-match-row';
+                    
+                    if (status === 'live') { statusBadge = '<span class="cal-status-badge badge-live"><i class="fa-solid fa-circle" style="font-size:0.5rem"></i> LIVE</span>'; rowClass += ' match-live'; }
+                    else if (status === 'done') { statusBadge = `<span class="cal-status-badge badge-done">${result || 'Terminé'}</span>`; rowClass += ' match-done'; }
+                    else if (status === 'soon') { statusBadge = '<span class="cal-status-badge badge-soon">Bientôt</span>'; }
+                    else { statusBadge = '<span class="cal-status-badge badge-upcoming">À venir</span>'; }
+                    
+                    if (isToday && status !== 'done') rowClass += ' match-today';
+                    const f1Url = getFlag(f1), f2Url = getFlag(f2);
+
+                    html += `<div class="${rowClass}">
+                        <div class="cal-group-badge">${grp}</div>
+                        <div class="cal-teams">
+                            <div class="cal-team">${f1Url ? `<img class="cal-flag" src="${f1Url}">`:''}${t1}</div>
+                            ${result ? `<div class="cal-score">${result}</div>` : `<div class="cal-vs">VS</div>`}
+                            <div class="cal-team">${f2Url ? `<img class="cal-flag" src="${f2Url}">`:''}${t2}</div>
+                        </div>
+                        <div class="cal-time-block">
+                            <div class="cal-local-time">${toLocalTime(utc)}</div>
+                            <div class="cal-user-time">heure locale</div>
+                        </div>
+                        <div class="cal-venue"><i class="fa-solid fa-location-dot" style="color:var(--gold-solid);margin-right:4px;font-size:0.65rem;"></i>${venue}</div>
+                        ${statusBadge}
+                    </div>`;
+                });
+            });
+            html += `</div>`;
+        });
+        document.getElementById('calendar-content').innerHTML = html || '<p style="color:#666;text-align:center;padding:40px;">Aucun match trouvé.</p>';
+    }
+
+    // --- RENDU DYNAMIQUE DE LA CARTE DE MATCH DU LECTEUR PRINCIPAL ---
+    function renderMainMatchCard() {
+        const container = document.getElementById('main-match-card');
+        if (!container) return;
+
+        const now = new Date();
+        const todayStr = now.toDateString();
+
+        // Logique de sélection intelligente du match vedette à afficher sous l'embed
+        let activeMatch = MATCHES.find(m => getMatchStatus(m[0], m[7]) === 'live'); // 1. Match en direct
+        if (!activeMatch) activeMatch = MATCHES.find(m => getMatchStatus(m[0], m[7]) === 'soon'); // 2. Match imminent
+        if (!activeMatch) activeMatch = MATCHES.find(m => new Date(m[0]).toDateString() === todayStr && getMatchStatus(m[0], m[7]) === 'upcoming'); // 3. Prochain match de la journée
+        if (!activeMatch) {
+            const finishedToday = MATCHES.filter(m => new Date(m[0]).toDateString() === todayStr && m[7] !== null);
+            if (finishedToday.length > 0) activeMatch = finishedToday[finishedToday.length - 1]; // 4. Dernier match fini aujourd'hui
+        }
+        if (!activeMatch) activeMatch = MATCHES.find(m => m[7] === null); // 5. Prochain match global non terminé
+        if (!activeMatch) activeMatch = MATCHES[0]; // Repli ultime
+
+        const [utc, t1, f1, t2, f2, grp, venue, result] = activeMatch;
+        const status = getMatchStatus(utc, result);
+
+        // Changement dynamique du titre de l'onglet du navigateur
+        document.title = `Coupe du Monde - ${t1} vs ${t2}`;
+
+        let flag1 = getFlag(f1), flag2 = getFlag(f2);
+        if (flag1 && flag1.includes('w40')) flag1 = flag1.replace('w40', 'w80'); // Passage en HD
+        if (flag2 && flag2.includes('w40')) flag2 = flag2.replace('w40', 'w80');
+
+        let statusTextHtml = '';
+        if (status === 'live') {
+            statusTextHtml = `<div class="match-minute" style="color:#ff4444;"><i class="fa-solid fa-circle" style="font-size:0.5rem; animation: pulse 1.5s infinite;"></i> EN DIRECT</div>`;
+        } else if (status === 'done') {
+            statusTextHtml = `<div class="match-minute" style="color:#888;">Terminé</div>`;
+        } else {
+            const diffMs = new Date(utc) - now;
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            statusTextHtml = `<div class="match-minute"><i class="fa-regular fa-clock"></i> dans ${hours > 0 ? hours + 'h ' : ''}${minutes}m</div>`;
+        }
+
+        container.innerHTML = `
+            <div class="team-box">
+                <div class="flag-box">${flag1 ? `<img src="${flag1}" alt="${t1}">` : ''}</div>
+                <span class="team-name">${t1}</span>
+            </div>
+            <div class="match-score-status">
+                <div class="live-score">${result ? result : 'VS'}</div>
+                ${statusTextHtml}
+            </div>
+            <div class="team-box team-right">
+                <span class="team-name">${t2}</span>
+                <div class="flag-box">${flag2 ? `<img src="${flag2}" alt="${t2}">` : ''}</div>
+            </div>
+        `;
+    }
+
+    // --- RENDU DYNAMIQUE DE LA SECTION "MATCHS DU JOUR" DANS LA BARRE LATÉRALE ---
+    function renderSidebarMatches() {
+        const container = document.getElementById('sidebar-match-list');
+        if (!container) return;
+
+        const now = new Date();
+        const todayStr = now.toDateString();
+        const todaysMatches = MATCHES.filter(m => new Date(m[0]).toDateString() === todayStr);
+
+        if (todaysMatches.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding: 15px; color:#888; font-size:0.85rem;">Aucun match prévu aujourd\'hui.</div>';
+            return;
+        }
+
+        let html = '';
+        todaysMatches.forEach(m => {
+            const [utc, t1, f1, t2, f2, grp, venue, result] = m;
+            const status = getMatchStatus(utc, result);
+            let statusText = '', statusColor = '#888', rowStyle = '';
+
+            if (status === 'live') {
+                statusText = '<i class="fa-solid fa-circle" style="font-size:0.5rem; margin-right:4px;"></i>EN DIRECT'; statusColor = '#ff4444';
+                rowStyle = 'border-color: #ff0000; box-shadow: 0 0 10px rgba(255,0,0,0.15);';
+            } else if (status === 'done') {
+                statusText = result || 'Terminé'; statusColor = '#888'; rowStyle = 'opacity: 0.7;';
+            } else {
+                statusText = `À ${toLocalTime(utc)}`; statusColor = '#eab308';
+            }
+
+            const flag1 = getFlag(f1), flag2 = getFlag(f2);
+            html += `
+            <div class="mini-match-row" style="${rowStyle}">
+                <div class="mini-teams">
+                    <div class="mini-team">
+                        <div class="mini-flag-box">${flag1 ? `<img src="${flag1}">` : ''}</div>
+                        <span>${t1}</span>
+                    </div>
+                    <div class="mini-team">
+                        <div class="mini-flag-box">${flag2 ? `<img src="${flag2}">` : ''}</div>
+                        <span>${t2}</span>
+                    </div>
+                </div>
+                <div class="match-meta">
+                    <span class="meta-status" style="color: ${statusColor};">${statusText}</span>
+                    <span class="meta-time">Aujourd'hui</span>
+                </div>
+            </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    // --- BOUCLE D'ACTUALISATION DYNAMIQUE AUTO (Toutes les 60 secondes) ---
+    displayTimezone();
+    renderCalendar();
+    renderMainMatchCard();
+    renderSidebarMatches();
+
+    setInterval(() => {
+        renderCalendar();
+        renderMainMatchCard();
+        renderSidebarMatches();
+    }, 60000);
+    </script>
+
+    <script>
+        document.getElementById('userPseudo').value = localStorage.getItem('CHAT_PSEUDO') || '';
+
+        // Bloquer le Clic-Droit & Inspecteur d'éléments pour protéger la source d'embed
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || (e.ctrlKey && (e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || e.keyCode === 85 || e.keyCode === 67))) {
+                e.preventDefault(); return false;
+            }
+        });
+
+        // --- GESTION DES ONGLETS DE STREAMING ---
+        function changeSource(url, btnElement) {
+            const player = document.getElementById('mainPlayer');
+            const tabs = document.querySelectorAll('.stream-tab');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            btnElement.classList.add('active');
+            player.src = url;
+        }
+
+        // --- MODULE MONÉTISATION 3 ÉTAPES (LIENS SPONSORS) ---
+        let adStep = 1;
+        const adLinks = [
+            "https://www.effectivecpmnetwork.com/y40dd1uqu3?key=0ceb18a16a184d36d16faaea522e91ca",
+            "https://www.effectivecpmnetwork.com/knsrvj9k1?key=60bd05f4efcb67ef4d7acf69b5ab5361",
+            "https://www.effectivecpmnetwork.com/aveuwnpnpp?key=30110ae3236d0448b81fd5ede106390e"
+        ];
+
+        function handleAdWall() {
+            const subtext = document.getElementById('adInstructionSubText');
+            const adLink = adLinks[adStep - 1];
+
+            try {
+                // Technique de l'élément 'a' invisible pour contourner certains bloqueurs
+                const a = document.createElement('a');
+                a.href = adLink;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                subtext.innerHTML = "Revenez immédiatement ici pour valider l'étape suivante.";
+            } catch (error) {
+                subtext.innerHTML = "<span style='color: #ff3333; font-weight: bold;'>⚠️ Erreur !</span> Veuillez recliquer pour ouvrir le lien sponsor.";
+            }
+
+            const d1 = document.getElementById('dot1'), d2 = document.getElementById('dot2'), d3 = document.getElementById('dot3'), btn = document.getElementById('adBtnText');
+            
+            if (adStep === 1) { 
+                adStep = 2; 
+                d1.className = 'ad-dot completed'; 
+                d2.className = 'ad-dot active'; 
+                btn.innerText = "Regarder la pub (2/3)"; 
+            }
+            else if (adStep === 2) { 
+                adStep = 3; 
+                d2.className = 'ad-dot completed'; 
+                d3.className = 'ad-dot active'; 
+                btn.innerText = "Regarder la pub (3/3)"; 
+            }
+            else if (adStep === 3) {
+                d3.className = 'ad-dot completed';
+                const ov = document.getElementById('videoOverlay');
+                ov.style.opacity = '0';
+                setTimeout(() => ov.style.display = 'none', 600);
+            }
+        }
+
+        // --- FILTRE CHAT ANTI-LIEN SÉCURISÉ ---
+        const LINK_SECURITY_REGEX = /(https?:\/\/[^\s]+|www\.[^\s]+|[a-zA-Z0-9-]+\.(com|net|org|fr|info|biz|tk|ml|cf|gq|io|co|xyz|online|live|club|top|cc|me|eu|be|ch|it|es|us|uk|ws|tv|ru|ua|ca|in|cn|br|mx|co\.[a-z]{2,3}|net\.[a-z]{2,3}|org\.[a-z]{2,3})(\/[^\s]*)?)/gi;
+        const CHAT_ROOM_TOPIC = "movix_worldcup_germany_curacao_public_chat_room";
+        let lastMsgTime = 0;
+
+        function initRealtimeChat() {
+            const eventSource = new EventSource(`https://ntfy.sh/${CHAT_ROOM_TOPIC}/sse`);
+            eventSource.onmessage = function(e) {
+                try {
+                    const chatMessage = JSON.parse(JSON.parse(e.data).message);
+                    if (chatMessage && chatMessage.pseudo && chatMessage.text) {
+                        let text = chatMessage.text;
+                        if (LINK_SECURITY_REGEX.test(text)) text = text.replace(LINK_SECURITY_REGEX, '<span class="forbidden-link">[Lien Interdit]</span>');
+                        renderChatMessage(chatMessage.pseudo, text, chatMessage.uuid);
+                    }
+                } catch(err) {}
+            };
+        }
+
+        async function sendUserMessage() {
+            const pInput = document.getElementById('userPseudo'), mInput = document.getElementById('userInputMsg');
+            let pseudo = pInput.value.trim() || "Anonyme";
+            const text = mInput.value.trim();
+            if (!text) return;
+
+            if (Date.now() - lastMsgTime < 2000) { renderSystemWarning("Anti-Spam : attendez 2s. ⏳"); return; }
+            if (LINK_SECURITY_REGEX.test(text)) { renderSystemWarning("Les liens internet sont interdits ! 🛡️"); mInput.value = ''; return; }
+
+            localStorage.setItem('CHAT_PSEUDO', pseudo);
+            pInput.value = pseudo;
+            lastMsgTime = Date.now();
+
+            let uuid = localStorage.getItem('CHAT_USER_UUID');
+            if (!uuid) { uuid = 'user_' + Math.random().toString(36).substr(2, 9); localStorage.setItem('CHAT_USER_UUID', uuid); }
+
+            try {
+                mInput.value = '';
+                await fetch(`https://ntfy.sh/${CHAT_ROOM_TOPIC}`, { method: 'POST', body: JSON.stringify({ pseudo, text, uuid, timestamp: Date.now() }) });
+            } catch (err) {}
+        }
+
+        function renderSystemWarning(txt) {
+            const cb = document.getElementById('chatBox'), div = document.createElement('div');
+            div.className = 'message system-alert'; div.innerHTML = `<div class="msg-author">Sécurité</div><div class="msg-text">${txt}</div>`;
+            cb.appendChild(div); cb.scrollTop = cb.scrollHeight;
+        }
+
+        function renderChatMessage(pseudo, text, uuid) {
+            const cb = document.getElementById('chatBox'), myUUID = localStorage.getItem('CHAT_USER_UUID'), div = document.createElement('div');
+            div.className = (uuid === myUUID) ? 'message user-sent' : 'message';
+            
+            let sPseudo = escapeHTML(pseudo), sText = escapeHTML(text);
+            sText = sText.replace(/&lt;span class=&quot;forbidden-link&quot;&gt;\[Lien Interdit\]&lt;\/span&gt;/g, '<span class="forbidden-link">[Lien Interdit]</span>');
+
+            div.innerHTML = `<div class="msg-author">${sPseudo}</div><div class="msg-text">${sText}</div>`;
+            cb.appendChild(div); cb.scrollTop = cb.scrollHeight;
+        }
+
+        function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)); }
+
+        initRealtimeChat();
+    </script>
+</body>
+</html>

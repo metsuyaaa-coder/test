@@ -1007,7 +1007,7 @@
         const matchTime = new Date(utcStr);
         const diffMin = (now - matchTime) / 60000;
         if (result) return 'done';
-        if (diffMin >= 0 && diffMin < 105) return 'live';
+        if (diffMin >= 0 && diffMin < 125) return 'live';
         if (diffMin < 0 && diffMin > -180) return 'soon';
         return diffMin < 0 ? 'upcoming' : 'done';
     }

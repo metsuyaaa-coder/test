@@ -714,19 +714,17 @@
                     <div class="ad-wall-box">
                         <div class="ad-progress-bar">
                             <span class="ad-dot active" id="dot1"></span>
-                            <span class="ad-dot" id="dot2"></span>
-                            <span class="ad-dot" id="dot3"></span>
-                        </div>                            
+                        </div>
                         <div class="ad-instruction">
                             <i class="fa-solid fa-triangle-exclamation"></i> Ne cliquez sur rien dans la pub !
                         </div>
                         <div id="adInstructionSubText" class="ad-instruction-subtext">
-                            Une fois la pub ouverte, revenez immédiatement sur cette page pour débloquer l'étape suivante.
+                            Une fois la pub ouverte, revenez immédiatement sur cette page pour débloquer le live.
                         </div>
                     </div>
 
                     <button class="play-btn-gold" id="adWallBtn" onclick="handleAdWall()">
-                        <i class="fa-solid fa-rectangle-ad"></i> <span id="adBtnText">Regarder la pub (1/3)</span>
+                        <i class="fa-solid fa-rectangle-ad"></i> <span id="adBtnText">Regarder la publicité</span>
                     </button>
                 </div>
 
@@ -913,12 +911,12 @@
         ["2026-06-12T22:00:00Z","USA","us","Paraguay","py","D","SoFi Stadium, Inglewood","4-1","groupe"],
         ["2026-06-13T17:00:00Z","Qatar","qa","Suisse","ch","B","Levi's Stadium, Santa Clara","1-1","groupe"],
         ["2026-06-13T21:00:00Z","Brésil","br","Maroc","ma","C","MetLife Stadium, New Jersey","1-1","groupe"],
-        ["2026-06-14T01:00:00Z","Haïti","ht","Écosse","gb-sct","C","Gillette Stadium, Foxborough","0-1","groupe"],
+        ["2026-06-14T01:00:00Z","Haïti","ht","Écosse","gb-sct","C","Gillette Stadium, Foxborough","1-0","groupe"],
         
         // Matchs du jour
         ["2026-06-14T04:00:00Z","Australie","au","Türkiye","tr","D","BC Place, Vancouver","2-0","groupe"],
         ["2026-06-14T17:00:00Z","Allemagne","de","Curaçao","cw","E","NRG Stadium, Houston","7-1","groupe"],
-        ["2026-06-14T20:00:00Z","Pays-Bas","nl","Japon","jp","F","AT&T Stadium, Arlington",1-0","groupe"],
+        ["2026-06-14T20:00:00Z","Pays-Bas","nl","Japon","jp","F","AT&T Stadium, Arlington",null,"groupe"],
         ["2026-06-14T23:00:00Z","Côte d'Ivoire","ci","Équateur","ec","E","Lincoln Financial Field, Philadelphia",null,"groupe"],
         ["2026-06-15T02:00:00Z","Suède","se","Tunisie","tn","F","Estadio BBVA, Monterrey",null,"groupe"],
         
@@ -1246,17 +1244,12 @@
             player.src = url;
         }
 
-        // --- MODULE MONÉTISATION 3 ÉTAPES (LIENS SPONSORS) ---
-        let adStep = 1;
-        const adLinks = [
-            "https://www.effectivecpmnetwork.com/y40dd1uqu3?key=0ceb18a16a184d36d16faaea522e91ca",
-            "https://www.effectivecpmnetwork.com/knsrvj9k1?key=60bd05f4efcb67ef4d7acf69b5ab5361",
-            "https://www.effectivecpmnetwork.com/aveuwnpnpp?key=30110ae3236d0448b81fd5ede106390e"
-        ];
+        // --- MODULE MONÉTISATION (1 PUB) ---
+        const adLink = "https://www.effectivecpmnetwork.com/y40dd1uqu3?key=0ceb18a16a184d36d16faaea522e91ca";
 
         function handleAdWall() {
             const subtext = document.getElementById('adInstructionSubText');
-            const adLink = adLinks[adStep - 1];
+            const dot1 = document.getElementById('dot1');
 
             try {
                 // Technique de l'élément 'a' invisible pour contourner certains bloqueurs
@@ -1268,30 +1261,15 @@
                 a.click();
                 document.body.removeChild(a);
                 
-                subtext.innerHTML = "Revenez immédiatement ici pour valider l'étape suivante.";
-            } catch (error) {
-                subtext.innerHTML = "<span style='color: #ff3333; font-weight: bold;'>⚠️ Erreur !</span> Veuillez recliquer pour ouvrir le lien sponsor.";
-            }
-
-            const d1 = document.getElementById('dot1'), d2 = document.getElementById('dot2'), d3 = document.getElementById('dot3'), btn = document.getElementById('adBtnText');
-            
-            if (adStep === 1) { 
-                adStep = 2; 
-                d1.className = 'ad-dot completed'; 
-                d2.className = 'ad-dot active'; 
-                btn.innerText = "Regarder la pub (2/3)"; 
-            }
-            else if (adStep === 2) { 
-                adStep = 3; 
-                d2.className = 'ad-dot completed'; 
-                d3.className = 'ad-dot active'; 
-                btn.innerText = "Regarder la pub (3/3)"; 
-            }
-            else if (adStep === 3) {
-                d3.className = 'ad-dot completed';
+                // Mise à jour visuelle
+                dot1.className = 'ad-dot completed';
+                
+                // Fermeture de l'overlay après le premier clic
                 const ov = document.getElementById('videoOverlay');
                 ov.style.opacity = '0';
                 setTimeout(() => ov.style.display = 'none', 600);
+            } catch (error) {
+                subtext.innerHTML = "<span style='color: #ff3333; font-weight: bold;'>⚠️ Erreur !</span> Veuillez recliquer pour ouvrir le lien sponsor.";
             }
         }
 

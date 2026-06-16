@@ -38,7 +38,6 @@
             line-height: 1.6;
         }
 
-        /* Fond d'ambiance avec légères vagues sombres et dorées */
         body::before {
             content: '';
             position: fixed;
@@ -172,21 +171,14 @@
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        /* --- SECTION LECTEUR --- */
-        .stream-section {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Cadre Doré Lumineux Autour du Lecteur */
+        /* --- LECTEUR CONFIGURÉ POUR COUPER LE HAUT --- */
         .player-wrapper {
             position: relative;
             width: 100%;
             aspect-ratio: 16/9;
             background-color: #000;
             border-radius: 12px;
-            overflow: hidden;
+            overflow: hidden; /* Obligatoire pour masquer ce qui dépasse */
             border: 2px solid;
             border-image: var(--gold-gradient) 1;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.1);
@@ -197,8 +189,11 @@
         }
 
         .player-wrapper iframe {
+            position: absolute;
+            top: -60px; /* Déplace l'iframe de 45px vers le haut pour cacher le bandeau supérieur */
+            left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% + 60px); /* Compense les 45px perdus en hauteur */
             border: none;
         }
 
@@ -667,7 +662,6 @@
 
     <header>
         <div class="logo-container">
-            <!-- Remplacement par le logo officiel de la Coupe du Monde 2026 -->
             <img class="logo-wc2026" src="https://upload.wikimedia.org/wikipedia/fr/thumb/5/5a/2026_FIFA_World_Cup.svg/330px-2026_FIFA_World_Cup.svg.png?_=20230526112954" alt="Logo Coupe du Monde 2026">
             <span style="color: rgba(191, 149, 63, 0.4); font-size: 1.6rem; font-weight: 300; margin: 0 8px;">|</span>
             <span style="color: #ff0000; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);">MOVIX</span>
@@ -716,7 +710,7 @@
                     </button>
                 </div>
 
-                <iframe id="mainPlayer" src="https://junkieembeds.pages.dev/embed/foxtest-usa" 
+                <iframe id="mainPlayer" src="https://junkieembeds.pages.dev/embed/fox-usa" 
                         scrolling="no" 
                         allow="autoplay; encrypted-media; picture-in-picture; fullscreen" 
                         allowfullscreen>
@@ -901,7 +895,7 @@
         ["2026-06-13T21:00:00Z","Brésil","br","Maroc","ma","C","MetLife Stadium, New Jersey","1-1","groupe"],
         ["2026-06-14T01:00:00Z","Haïti","ht","Écosse","gb-sct","C","Gillette Stadium, Foxborough","0-1","groupe"],
         
-        // Matchs du jour
+        // Matchs simulés / temps réel
         ["2026-06-14T04:00:00Z","Australie","au","Türkiye","tr","D","BC Place, Vancouver","2-0","groupe"],
         ["2026-06-14T17:00:00Z","Allemagne","de","Curaçao","cw","E","NRG Stadium, Houston","7-1","groupe"],
         ["2026-06-14T20:00:00Z","Pays-Bas","nl","Japon","jp","F","AT&T Stadium, Arlington","2-2","groupe"],
@@ -1001,7 +995,6 @@
         document.getElementById('tz-offset').textContent = `UTC${sign}${String(Math.floor(abs/60)).padStart(2,'0')}:${String(abs%60).padStart(2,'0')}`;
     }
 
-    // --- FILTRE DU CALENDRIER COMPLET ---
     let currentFilter = 'all';
     function filterPhase(phase) {
         currentFilter = phase;
@@ -1074,7 +1067,6 @@
         document.getElementById('calendar-content').innerHTML = html || '<p style="color:#666;text-align:center;padding:40px;">Aucun match trouvé.</p>';
     }
 
-    // --- RENDU DYNAMIQUE DE LA CARTE DE MATCH DU LECTEUR PRINCIPAL ---
     function renderMainMatchCard() {
         const container = document.getElementById('main-match-card');
         if (!container) return;
@@ -1082,25 +1074,23 @@
         const now = new Date();
         const todayStr = now.toDateString();
 
-        // Logique de sélection intelligente du match vedette à afficher sous l'embed
-        let activeMatch = MATCHES.find(m => getMatchStatus(m[0], m[7]) === 'live'); // 1. Match en direct
-        if (!activeMatch) activeMatch = MATCHES.find(m => getMatchStatus(m[0], m[7]) === 'soon'); // 2. Match imminent
-        if (!activeMatch) activeMatch = MATCHES.find(m => new Date(m[0]).toDateString() === todayStr && getMatchStatus(m[0], m[7]) === 'upcoming'); // 3. Prochain match de la journée
+        let activeMatch = MATCHES.find(m => getMatchStatus(m[0], m[7]) === 'live');
+        if (!activeMatch) activeMatch = MATCHES.find(m => getMatchStatus(m[0], m[7]) === 'soon');
+        if (!activeMatch) activeMatch = MATCHES.find(m => new Date(m[0]).toDateString() === todayStr && getMatchStatus(m[0], m[7]) === 'upcoming');
         if (!activeMatch) {
             const finishedToday = MATCHES.filter(m => new Date(m[0]).toDateString() === todayStr && m[7] !== null);
-            if (finishedToday.length > 0) activeMatch = finishedToday[finishedToday.length - 1]; // 4. Dernier match fini aujourd'hui
+            if (finishedToday.length > 0) activeMatch = finishedToday[finishedToday.length - 1];
         }
-        if (!activeMatch) activeMatch = MATCHES.find(m => m[7] === null); // 5. Prochain match global non terminé
-        if (!activeMatch) activeMatch = MATCHES[0]; // Repli ultime
+        if (!activeMatch) activeMatch = MATCHES.find(m => m[7] === null);
+        if (!activeMatch) activeMatch = MATCHES[0];
 
         const [utc, t1, f1, t2, f2, grp, venue, result] = activeMatch;
         const status = getMatchStatus(utc, result);
 
-        // Changement dynamique du titre de l'onglet du navigateur
         document.title = `Coupe du Monde - ${t1} vs ${t2}`;
 
         let flag1 = getFlag(f1), flag2 = getFlag(f2);
-        if (flag1 && flag1.includes('w40')) flag1 = flag1.replace('w40', 'w80'); // Passage en HD
+        if (flag1 && flag1.includes('w40')) flag1 = flag1.replace('w40', 'w80');
         if (flag2 && flag2.includes('w40')) flag2 = flag2.replace('w40', 'w80');
 
         let statusTextHtml = '';
@@ -1131,7 +1121,6 @@
         `;
     }
 
-    // --- RENDU DYNAMIQUE DE LA SECTION "MATCHS DU JOUR" DANS LA BARRE LATÉRALE ---
     function renderSidebarMatches() {
         const container = document.getElementById('sidebar-match-list');
         if (!container) return;
@@ -1182,7 +1171,6 @@
         container.innerHTML = html;
     }
 
-    // --- BOUCLE D'ACTUALISATION DYNAMIQUE AUTO (Toutes les 60 secondes) ---
     displayTimezone();
     renderCalendar();
     renderMainMatchCard();
@@ -1198,7 +1186,6 @@
     <script>
         document.getElementById('userPseudo').value = localStorage.getItem('CHAT_PSEUDO') || '';
 
-        // Bloquer le Clic-Droit & Inspecteur d'éléments pour protéger la source d'embed
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', function(e) {
             if (e.keyCode === 123 || (e.ctrlKey && (e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || e.keyCode === 85 || e.keyCode === 67))) {
@@ -1206,7 +1193,6 @@
             }
         });
 
-        // --- GESTION DES ONGLETS DE STREAMING ---
         function changeSource(url, btnElement) {
             const player = document.getElementById('mainPlayer');
             const tabs = document.querySelectorAll('.stream-tab');
@@ -1216,7 +1202,6 @@
             player.src = url;
         }
 
-        // --- MODULE MONÉTISATION (1 PUB) ---
         const adLink = "https://www.effectivecpmnetwork.com/se0m6biid6?key=51308f95d5f62681ad27d7040cc4fb23";
 
         function handleAdWall() {
@@ -1224,7 +1209,6 @@
             const dot1 = document.getElementById('dot1');
 
             try {
-                // Technique de l'élément 'a' invisible pour contourner certains bloqueurs
                 const a = document.createElement('a');
                 a.href = adLink;
                 a.target = '_blank';
@@ -1233,10 +1217,8 @@
                 a.click();
                 document.body.removeChild(a);
                 
-                // Mise à jour visuelle
                 dot1.className = 'ad-dot completed';
                 
-                // Fermeture de l'overlay après le premier clic
                 const ov = document.getElementById('videoOverlay');
                 ov.style.opacity = '0';
                 setTimeout(() => ov.style.display = 'none', 600);
@@ -1245,7 +1227,6 @@
             }
         }
 
-        // --- FILTRE CHAT ANTI-LIEN SÉCURISÉ ---
         const LINK_SECURITY_REGEX = /(https?:\/\/[^\s]+|www\.[^\s]+|[a-zA-Z0-9-]+\.(com|net|org|fr|info|biz|tk|ml|cf|gq|io|co|xyz|online|live|club|top|cc|me|eu|be|ch|it|es|us|uk|ws|tv|ru|ua|ca|in|cn|br|mx|co\.[a-z]{2,3}|net\.[a-z]{2,3}|org\.[a-z]{2,3})(\/[^\s]*)?)/gi;
         const CHAT_ROOM_TOPIC = "movix_worldcup_germany_curacao_public_chat_room";
         let lastMsgTime = 0;

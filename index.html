@@ -10,6 +10,129 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* --- MODALE ADBLOCKER WARNING --- */
+        #adblock-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInOverlay 0.4s ease;
+        }
+
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #adblock-modal {
+            background: linear-gradient(145deg, #111111, #1a1a1a);
+            border: 1px solid rgba(191, 149, 63, 0.4);
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.15), 0 25px 60px rgba(0,0,0,0.8);
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #adblock-modal .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        #adblock-modal h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: #fff;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        #adblock-modal p {
+            font-size: 0.88rem;
+            color: #cccccc;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .modal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .modal-option {
+            background: rgba(191, 149, 63, 0.07);
+            border: 1px solid rgba(191, 149, 63, 0.25);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+        }
+
+        .modal-option .opt-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .modal-option .opt-text strong {
+            display: block;
+            color: #f3e5ab;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .modal-option .opt-text span {
+            font-size: 0.78rem;
+            color: #999;
+        }
+
+        .modal-option a {
+            color: #D4AF37;
+            text-decoration: underline;
+        }
+
+        #adblock-modal-close {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            padding: 13px 35px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        #adblock-modal-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(212, 175, 55, 0.55);
+        }
+
+        .modal-disclaimer {
+            margin-top: 14px;
+            font-size: 0.72rem;
+            color: #555;
+        }
+
         /* --- VARIABLES DE DESIGN (NOIR & GOLD) --- */
         :root {
             --dark-deep: #080808;      /* Noir d'encre */
@@ -115,7 +238,7 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
+            0 { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
@@ -657,9 +780,75 @@
 
         .meta-status { font-weight: 700; text-transform: uppercase; font-size: 0.75rem; color: #eab308; margin-bottom: 2px; }
         .meta-time { font-size: 0.85rem; color: #fff; font-weight: 600; }
+
+        /* --- STYLES DU FOOTER --- */
+        footer {
+            background-color: var(--dark-card);
+            border-top: 1px solid rgba(191, 149, 63, 0.15);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.85rem;
+        }
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .footer-disclaimer {
+            color: #888;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+        .footer-disclaimer h4 {
+            color: var(--gold-solid);
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .footer-copyright {
+            color: #555;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- MODALE AVERTISSEMENT PUBLICITÉS -->
+    <div id="adblock-modal-overlay">
+        <div id="adblock-modal">
+            <div class="modal-icon">🛡️</div>
+            <h2>Avertissement Publicités</h2>
+            <p>
+                Les sources de streaming utilisées sur ce site <strong style="color:#f3e5ab;">peuvent contenir des publicités</strong> tierces.
+                Pour une expérience optimale et sécurisée, nous recommandons l'une de ces solutions :
+            </p>
+            <div class="modal-options">
+                <div class="modal-option">
+                    <div class="opt-icon">🦁</div>
+                    <div class="opt-text">
+                        <strong>Navigateur Brave</strong>
+                        <span>Bloque les pubs nativement, sans extension. <a href="https://brave.com/fr/download/" target="_blank" rel="noopener">Télécharger Brave →</a></span>
+                    </div>
+                </div>
+                <div class="modal-option">
+                    <div class="opt-icon">🔧</div>
+                    <div class="opt-text">
+                        <strong>Extension uBlock Origin</strong>
+                        <span>Le bloqueur de pubs le plus efficace. Disponible sur Chrome, Firefox & Edge.</span>
+                    </div>
+                </div>
+            </div>
+            <button id="adblock-modal-close" onclick="document.getElementById('adblock-modal-overlay').style.display='none'">
+                J'ai compris, continuer ▶
+            </button>
+            <p class="modal-disclaimer">Ce message s'affiche une seule fois par session.</p>
+        </div>
+    </div>
+
 
     <header>
         <div class="logo-container">
@@ -792,6 +981,18 @@
         <div id="calendar-content"></div>
 
     </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-disclaimer">
+                <h4>Avertissement légal</h4>
+                <p>MovixCDM n'héberge aucun fichier sur ses serveurs. Nous fournissons uniquement des liens vers des services externes. Nous ne sommes pas responsables du contenu hébergé par ces services tiers. En cas de problème avec la justice, veuillez contacter directement les hébergeurs des contenus concernés.</p>
+            </div>
+            <div class="footer-copyright">
+                © 2026 MovixCDM. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
 
     <style>
         .phase-btn {
